@@ -19,15 +19,8 @@ def get_coordinates_from_bb(box):
     cx_px = (x1 + x2) / 2
     cy_px = (y1 + y2) / 2
 
-    # 1. Distance from camera to ball (Forward)
-    z_cam = (GOLF_BALL_DIAMETER * FOCAL_LENGTH) / w_px
-    
-    # 2. Horizontal offset from center (Side-to-side)
-    x_cam = (cx_px - HORIZ_CAM_CENTER) * z_cam / FOCAL_LENGTH
-    
-    # 3. Vertical offset (Up/Down)
-    y_cam = (cy_px - VERT_CAM_CENTER) * z_cam / FOCAL_LENGTH
+    z_cam = (GOLF_BALL_DIAMETER * FOCAL_LENGTH) / w_px  # In front of robot
+    x_cam = (cx_px - HORIZ_CAM_CENTER) * z_cam / FOCAL_LENGTH  # Side movement    
+    y_cam = (cy_px - VERT_CAM_CENTER) * z_cam / FOCAL_LENGTH  # Vertical (not really important)
 
-    # 4. Map to Robot Frame
-    # [Forward Distance, Left/Right, Up/Down]
-    return np.array([z_cam, x_cam, -y_cam])
+    return np.array([z_cam, x_cam, -y_cam])  # Return coords w.r.t. frame

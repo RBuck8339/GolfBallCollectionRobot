@@ -3,7 +3,7 @@ from ultralytics import YOLO
 
 # Utils
 from get_location import get_coordinates_from_bb
-
+from navigate import Navigate
 
 model = YOLO('yolo11n_object365_ncnn_model', task='detect')
 
@@ -16,6 +16,8 @@ def main_detection_loop():
     cap = cv2.VideoCapture(0)
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+
+    navigator = Navigate()  # Initialize class used for all navigation functionality
 
     print("Detection Activated")
 
@@ -45,10 +47,11 @@ def main_detection_loop():
 
                 if closest_box:
                     coords = get_coordinates_from_bb(closest_box)
-                    print(coords)
-                    # foo(coords)
+                    print(coords)  # For verification
+		    navigator.move(coords[0], coords[1])  # Perform navigation flow
+	            # Actions stop until finished
                 
-
+            # Stop early
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
     finally:
