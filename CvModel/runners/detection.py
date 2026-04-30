@@ -47,9 +47,10 @@ def main_detection_loop():
 
                 if closest_box:
                     coords = get_coordinates_from_bb(closest_box)
-                    print(coords)  # For verification
-		    navigator.move(coords[0], coords[1])  # Perform navigation flow
-	            # Actions stop until finished
+                    if coords is not None:
+                        print(coords)  # For verification
+                        navigator.move(coords[0], coords[1])  # Perform navigation flow
+                        # Actions stop until finished
                 
             # Stop early
             if cv2.waitKey(1) & 0xFF == ord('q'):
